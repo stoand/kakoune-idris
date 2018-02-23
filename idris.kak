@@ -29,10 +29,10 @@ add-highlighter shared/idris/macro   fill meta
 add-highlighter shared/idris/code regex (?<!')\b0x+[A-Fa-f0-9]+ 0:value
 add-highlighter shared/idris/code regex (?<!')\b\d+([.]\d+)? 0:value
 
-add-highlighter shared/idris/code regex (?<!')\b(assess|assert_total|default|elim|error_reverse|hide|name|reflection|error_handlers|language|flag|dynamic|provide|inline|used|no_implicit|hint|extern|unqualified|error_handler)(?!')\b 0:keyword
+add-highlighter shared/idris/code regex (?<!')\b(partial|assess|assert_total|default|elim|error_reverse|hide|name|reflection|error_handlers|language|flag|dynamic|provide|inline|used|no_implicit|hint|extern|unqualified|error_handler)(?!')\b 0:keyword
 add-highlighter shared/idris/code regex (?<!')\b(default|proof|tactic)(?!')\b 0:keyword
 
-# Idris Tactic - TODO: restrict tactic keywords in their context
+# Idris Tactic - TODO: restrict tactic keywords to their context
 add-highlighter shared/idris/code regex (?<!')\b(intros|rewrite|exact|refine|trivial|let|focus|try|compute|solve|attack|reflect|fill|applyTactic)(?!')\b 0:keyword
 
 
