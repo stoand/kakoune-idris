@@ -18,6 +18,7 @@ add-highlighter shared/idris/macro        region ^\h*?\K#                       
 add-highlighter shared/idris/pragma       region -recurse \{- \{-#               '#-\}'           fill meta
 add-highlighter shared/idris/comment      region -recurse \{- \{-                  -\}            fill comment
 add-highlighter shared/idris/line_comment region --(?:[^!#$%&*+./<>?@\\\^|~=]|$) $                fill comment
+add-highlighter shared/idris/line_comment2 region \|\|\|(?:[^!#$%&*+./<>?@\\\^|~=]|$) $           fill comment
 
 add-highlighter shared/idris/code/ regex (?<!')\b0x+[A-Fa-f0-9]+ 0:value
 add-highlighter shared/idris/code/ regex (?<!')\b\d+([.]\d+)? 0:value
