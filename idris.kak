@@ -19,6 +19,8 @@ map global idris-ide a ':idris-ide-inner-word; idris-ide addClause<ret>' -docstr
 map global idris-ide s ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'case-split'
 map global idris-ide p ':idris-ide-inner-word; idris-ide proofSearch<ret>' -docstring 'proof-search'
 map global idris-ide d ':idris-ide-inner-word; idris-ide generateDef<ret>' -docstring 'generate-def'
+map global idris-ide l ':idris-ide-inner-word; idris-ide makeLemma<ret>' -docstring 'make-lemma'
+map global idris-ide w ':idris-ide-inner-word; idris-ide makeWith<ret>' -docstring 'make-with'
 
 define-command -hidden idris-ide-inner-word -params 0 %{
     execute-keys <A-i> w

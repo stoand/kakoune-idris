@@ -50,9 +50,19 @@ assert.equal(
 	'execute-keys -draft o "generateDefHere x = Refl<esc>"; execute-keys jwwb',
     'Generate definition');
 
-// assert.equal(
-// 	actions.proofSearch('Test.idr', 'caseSplitHere_rhs', 4, 28),
-// 	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"; execute-keys jwwb',
-//     'make lemma');
+assert.equal(
+	actions.makeLemma('Test.idr', 'makeLemmaHere_rhs', 14, 1),
+	'execute-keys c <backspace> "makeLemmaHere_rhs y x" <esc> ' +
+    '<A-i> p O "makeLemmaHere_rhs : Int -> Int -> Int" <ret> ' +
+    '<esc> k',
+    'Make lemma');
+
+assert.equal(
+	actions.makeWith('Test.idr', 'x', 17, 1),
+	'execute-keys -draft o "makeWithHere x with (_)<ret>  makeWithHere x | ' +
+    'with_pat = ?x_rhs<ret><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
+    'h c',
+    'Make lemma');
+    
 
 console.log('All tests succeeded');

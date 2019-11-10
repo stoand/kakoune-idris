@@ -65,8 +65,20 @@ exports.generateDef = function(file, selection, line) {
     });
 }
 
-// | MakeLemma Integer String
+exports.makeLemma = function(file, selection, line) {
+    return idrisExec(file, `((:make-lemma ${line} "${selection}") 1)`, out => {
+        var parts = out.split('"'); 
+        var replace = newLinesToRet(parts[3]);
+        var newFn = newLinesToRet(parts[5]);
+        return `execute-keys c <backspace> "${replace}" <esc> <A-i> p O "${newFn}" <ret> <esc> k`;
+    });
+}
 
-// | MakeCase Integer String
+// Make Case - TOOD (not implemented in idris2 as of this time)
 
-// | MakeWith Integer String
+exports.makeWith = function(file, selection, line) {
+    return idrisExec(file, `((:make-with ${line} "${selection}") 1)`, out => {
+        var generatedCode = out.split('"')[3];
+        return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"; execute-keys -with-maps -with-hooks j <A-l> h c`;
+    });
+}
