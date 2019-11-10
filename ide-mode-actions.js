@@ -31,7 +31,6 @@ exports.interpret = function(file, selection) {
 
 exports.typeOf = function(file, selection, line, column) {
     return idrisExec(file, `((:type-of "${selection}" ${line} ${column}) 1)`, out => {
-        // return out;
         return `info -title "idris-ide: type" "\n${out.split('"')[3]}"`;
     });
 }

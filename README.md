@@ -1,7 +1,5 @@
 # Idris syntax highlighting for Kakoune
 
-__THIS IS INCOMPLETE! - it's a naively modified haskell.kak with keywords copied from idris.vim__
-
 Usage:
 
 `cp kakoune-idris/idris.kak /usr/share/kak/autoload`
@@ -15,4 +13,8 @@ or, in `kakrc`:
 Run tests:
 
 `nodemon ./ide-mode-test.js`
+
+Add Idris IDE mode to `kakrc`
+
+`map global normal <minus> ':enter-user-mode idris-ide<ret>'`
 
