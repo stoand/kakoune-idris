@@ -23,14 +23,14 @@ assert.equal(
     'interpret returns correct expression result');
 
 assert.equal(
-	actions.caseSplit('Test.idr', 'splitHere', 4, 1),
+	actions.caseSplit('Test.idr', 'splitHere', 4, 15),
 	`execute-keys -draft x c "caseSplitHere True = ?caseSplitHere_rhs_1<ret>` +
-	`caseSplitHere False = ?caseSplitHere_rhs_2<ret><esc>"`,
+	`caseSplitHere False = ?caseSplitHere_rhs_2<ret><esc>"; execute-keys 4g 14l`,
     'clause split runs new line with clause');
 
 assert.equal(
 	actions.addClause('Test.idr', 'addClauseHere', 6, 1),
-	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"',
+	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"; execute-keys jwwb',
     'clause split runs new line with clause');
     
 

@@ -15,12 +15,14 @@ hook global BufCreate .*[.](idr|blod) %{
     # v
     map buffer user d ':idris-ide interpret<ret>' -docstring 'Idris Interpret'
     map buffer user t ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'Idris Interpret'
+    map buffer user u ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'Idris Interpret'
     
     define-command -hidden idris-ide-inner-word -params 0 %{
         execute-keys <A-i> w
     }
     
     define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
+        write
     	eval %sh{
         	printf "$1\n$kak_bufname\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
         	node ~/.kakoune-idris/ide-mode-run.js

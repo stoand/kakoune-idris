@@ -29,16 +29,16 @@ exports.interpret = function(file, selection) {
     });
 }
 
-exports.caseSplit = function(file, selection, line) {
+exports.caseSplit = function(file, selection, line, column) {
     return idrisExec(file, `((:case-split ${line} "${selection}") 1)`, out => {
         var generatedCode = out.split('"')[3];
-        return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<esc>"`;
+        return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<esc>"; execute-keys ${line}g ${column - 1}l`;
     });
 }
 
 exports.addClause = function(file, selection, line) {
     return idrisExec(file, `((:add-clause ${line} "${selection}") 1)`, out => {
         var generatedCode = out.split('"')[3];
-        return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"`;
+        return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"; execute-keys jwwb`;
     });
 }
