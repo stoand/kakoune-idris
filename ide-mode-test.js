@@ -10,7 +10,7 @@ assert.equal(
 	`echo "Command failed"`,
     'Attempt to load wrong file should display command failed');
 
-// Don't display addition error info for incorrect files
+// Don't display additional error info for incorrect files
 // Expect the developer to be building the file in another shell tab
 assert.equal(
 	actions.interpret('TestInvalid.idr', '', 1, 1),
@@ -24,9 +24,9 @@ assert.equal(
 
 assert.equal(
 	actions.typeOf('Test.idr', 'caseSplitHere_rhs', 1, 1),
-	`echo 'info -title "Idris Type" "\n   splitHere : Bool\n` +
+	`info -title "idris-ide: type" "\n   splitHere : Bool\n` +
     '-------------------------------------\ncaseSplitHere_rhs : ' +
-    `String"' > /tmp/a2`,
+    `String"`,
     'interpret returns correct expression result');
 
 assert.equal(
@@ -38,6 +38,11 @@ assert.equal(
 assert.equal(
 	actions.addClause('Test.idr', 'addClauseHere', 6, 1),
 	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"; execute-keys jwwb',
+    'add clause');
+
+assert.equal(
+	actions.proofSearch('Test.idr', 'proofSearchHere_rhs', 9, 1),
+	'execute-keys -draft c <backspace> "Refl<esc>"',
     'add clause');
 
 // assert.equal(

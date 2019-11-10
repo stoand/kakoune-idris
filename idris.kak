@@ -6,14 +6,6 @@
 
 hook global BufCreate .*[.](idr|blod) %{
     set-option buffer filetype idris
-
-    # b
-    # m
-    # n
-    # o
-    # t
-    # u
-    # v
 }
 
 # Idris IDE Mode
@@ -25,6 +17,7 @@ map global idris-ide i ':idris-ide interpret<ret>' -docstring 'idris-ide: interp
 map global idris-ide t ':idris-ide-inner-word; idris-ide typeOf<ret>' -docstring 'idris-ide: type-of'
 map global idris-ide a ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'idris-ide: add-clause'
 map global idris-ide s ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'idris-ide: case-split'
+map global idris-ide p ':idris-ide-inner-word; idris-ide proofSearch<ret>' -docstring 'idris-ide: proof-search'
 
 define-command -hidden idris-ide-inner-word -params 0 %{
     execute-keys <A-i> w

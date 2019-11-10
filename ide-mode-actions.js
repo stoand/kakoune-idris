@@ -32,7 +32,7 @@ exports.interpret = function(file, selection) {
 exports.typeOf = function(file, selection) {
     return idrisExec(file, `((:type-of "${selection}") 1)`, out => {
         // return out;
-        return `info -title "Idris Type" "\n${out.split('"')[3]}"`;
+        return `info -title "idris-ide: type" "\n${out.split('"')[3]}"`;
     });
 }
 
@@ -51,47 +51,20 @@ exports.addClause = function(file, selection, line) {
     });
 }
 
-// exports.makeLemma = function(file, selection, line, column) {
-//     return idrisExec(file, `((:make-lemma ${line} "${selection}") 1)`, out => {
-//         var generatedCode = out.split('"')[3];
-//         // console.log(out);
-//         return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<esc>"`;
-//         // return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<esc>"; execute-keys ${line}g ${column - 1}l`;
-//     });
-// }
+exports.proofSearch = function(file, selection, line) {
+    return idrisExec(file, `((:proof-search ${line} "${selection}") 1)`, out => {
+        var generatedCode = out.split('"')[3];
+        return `execute-keys -draft c <backspace> "${newLinesToRet(generatedCode)}<esc>"`;
+    });
+}
 
-// add proof clause
 
-// add missing
+// | ExprSearch Integer String (List String) Bool
 
-// make with
+// | GenerateDef Integer String
 
-// make case
+// | MakeLemma Integer String
 
-// make lemma
+// | MakeCase Integer String
 
-// proof search
-
-// docs for
-
-// appropos
-
-// metavariables
-
-// who calls
-
-// calls who
-
-// browse namespace
-
-// normalize-term
-
-// show term implicits
-
-// hide term implicits
-
-// elaborate term
-
-// print definition
-
-// repl completions
+// | MakeWith Integer String
