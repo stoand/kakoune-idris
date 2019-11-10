@@ -13,11 +13,12 @@ hook global BufCreate .*[.](idr|blod) %{
 
 declare-user-mode idris-ide
 
-map global idris-ide i ':idris-ide interpret<ret>' -docstring 'idris-ide: interpret'
-map global idris-ide t ':idris-ide-inner-word; idris-ide typeOf<ret>' -docstring 'idris-ide: type-of'
-map global idris-ide a ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'idris-ide: add-clause'
-map global idris-ide s ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'idris-ide: case-split'
-map global idris-ide p ':idris-ide-inner-word; idris-ide proofSearch<ret>' -docstring 'idris-ide: proof-search'
+map global idris-ide i ':idris-ide interpret<ret>' -docstring 'interpret'
+map global idris-ide t ':idris-ide-inner-word; idris-ide typeOf<ret>' -docstring 'type-of'
+map global idris-ide a ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'add-clause'
+map global idris-ide s ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'case-split'
+map global idris-ide p ':idris-ide-inner-word; idris-ide proofSearch<ret>' -docstring 'proof-search'
+map global idris-ide d ':idris-ide-inner-word; idris-ide generateDef<ret>' -docstring 'generate-def'
 
 define-command -hidden idris-ide-inner-word -params 0 %{
     execute-keys <A-i> w

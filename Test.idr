@@ -7,3 +7,5 @@ addClauseHere : List String -> List Nat
 
 proofSearchHere : 1 = 1
 proofSearchHere = ?proofSearchHere_rhs
+
+generateDefHere : Bool -> 1 = 1

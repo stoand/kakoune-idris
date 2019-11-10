@@ -29,8 +29,8 @@ exports.interpret = function(file, selection) {
     });
 }
 
-exports.typeOf = function(file, selection) {
-    return idrisExec(file, `((:type-of "${selection}") 1)`, out => {
+exports.typeOf = function(file, selection, line, column) {
+    return idrisExec(file, `((:type-of "${selection}" ${line} ${column}) 1)`, out => {
         // return out;
         return `info -title "idris-ide: type" "\n${out.split('"')[3]}"`;
     });
@@ -58,10 +58,12 @@ exports.proofSearch = function(file, selection, line) {
     });
 }
 
-
-// | ExprSearch Integer String (List String) Bool
-
-// | GenerateDef Integer String
+exports.generateDef = function(file, selection, line) {
+    return idrisExec(file, `((:generate-def ${line} "${selection}") 1)`, out => {
+        var generatedCode = out.split('"')[3];
+        return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"; execute-keys jwwb`;
+    });
+}
 
 // | MakeLemma Integer String
 
