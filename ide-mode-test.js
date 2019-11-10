@@ -23,6 +23,13 @@ assert.equal(
     'interpret returns correct expression result');
 
 assert.equal(
+	actions.typeOf('Test.idr', 'caseSplitHere_rhs', 1, 1),
+	`echo 'info -title "Idris Type" "\n   splitHere : Bool\n` +
+    '-------------------------------------\ncaseSplitHere_rhs : ' +
+    `String"' > /tmp/a2`,
+    'interpret returns correct expression result');
+
+assert.equal(
 	actions.caseSplit('Test.idr', 'splitHere', 4, 15),
 	`execute-keys -draft x c "caseSplitHere True = ?caseSplitHere_rhs_1<ret>` +
 	`caseSplitHere False = ?caseSplitHere_rhs_2<ret><esc>"; execute-keys 4g 14l`,
@@ -31,7 +38,11 @@ assert.equal(
 assert.equal(
 	actions.addClause('Test.idr', 'addClauseHere', 6, 1),
 	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"; execute-keys jwwb',
-    'clause split runs new line with clause');
-    
+    'add clause');
+
+// assert.equal(
+// 	actions.proofSearch('Test.idr', 'caseSplitHere_rhs', 4, 28),
+// 	'execute-keys -draft o "addClauseHere xs = ?addClauseHere_rhs<esc>"; execute-keys jwwb',
+//     'make lemma');
 
 console.log('All tests succeeded');

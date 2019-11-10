@@ -6,6 +6,7 @@
 
 hook global BufCreate .*[.](idr|blod) %{
     set-option buffer filetype idris
+
     # b
     # m
     # n
@@ -13,21 +14,28 @@ hook global BufCreate .*[.](idr|blod) %{
     # t
     # u
     # v
-    map buffer user d ':idris-ide interpret<ret>' -docstring 'Idris Interpret'
-    map buffer user t ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'Idris Interpret'
-    map buffer user u ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'Idris Interpret'
-    
-    define-command -hidden idris-ide-inner-word -params 0 %{
-        execute-keys <A-i> w
-    }
-    
-    define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
-        write
-    	eval %sh{
-        	printf "$1\n$kak_bufname\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
-        	node ~/.kakoune-idris/ide-mode-run.js
-    	}
-    }
+}
+
+# Idris IDE Mode
+# ‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+declare-user-mode idris-ide
+
+map global idris-ide i ':idris-ide interpret<ret>' -docstring 'idris-ide: interpret'
+map global idris-ide t ':idris-ide-inner-word; idris-ide typeOf<ret>' -docstring 'idris-ide: type-of'
+map global idris-ide a ':idris-ide-inner-word; idris-ide addClause<ret>' -docstring 'idris-ide: add-clause'
+map global idris-ide s ':idris-ide-inner-word; idris-ide caseSplit<ret>' -docstring 'idris-ide: case-split'
+
+define-command -hidden idris-ide-inner-word -params 0 %{
+    execute-keys <A-i> w
+}
+
+define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
+    write
+	eval %sh{
+    	printf "$1\n$kak_bufname\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
+    	node ~/.kakoune-idris/ide-mode-run.js
+	}
 }
 
 
