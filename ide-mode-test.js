@@ -60,7 +60,7 @@ assert.equal(
 assert.equal(
 	actions.makeWith('Test.idr', 'x', 17, 1),
 	'execute-keys -draft o "makeWithHere x with (_)<ret>  makeWithHere x | ' +
-    'with_pat = ?x_rhs<ret><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
+    'with_pat = ?x_rhs<ret><backspace><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
     'h c',
     'Make lemma');
     
