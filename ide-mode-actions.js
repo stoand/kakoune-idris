@@ -1,13 +1,16 @@
 var { execSync } = require('child_process');
+var path = require('path');
 
 function newLinesToRet(text) {
     return text.replace(/\n/g, '<ret>');
 }
 
 function idrisExec(file, additionalCommand, next) {
+    let cdProjectCmd = 'source "' + path.join(__dirname, 'cdproject.sh') + '" "' + file + '"';
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
-        execSync('idris2 --ide-mode', { input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8' });
+        execSync(cdProjectCmd + '; [[ -d src ]] && cd src; idris2 --ide-mode',
+        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
     } catch (res) {
         let out = res.stdout;
         let matchError = out.match(/:error "(.*)"/);
