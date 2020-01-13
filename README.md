@@ -4,16 +4,27 @@
 
 ## Install
 
+Ensure NodeJS and [Idris 2](https://github.com/edwinb/Idris2) are installed.
+
+
+Clone the repository:
+
+```
+git clone https://github.com/stoand/kakoune-idris ~/.kakoune-idris/
+```
+
+
 Add to your `kakrc`:
 
 ```
-source CLONED_DIRECTORY/kakoune-idris/kakoune-idris/idris.kak
+source ~/.kakoune-idris/idris.kak
 map global normal <minus> ':enter-user-mode idris-ide<ret>'
 ```
 
-## Testing
+Note: this sets the minus key to be the idris ide mode key.
+This can be changed by replacing the "<minus>" above with the desired key.
 
-Run tests:
+## Testing
 
 `nodemon ./ide-mode-test.js`
 
