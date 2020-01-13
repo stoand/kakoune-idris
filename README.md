@@ -1,5 +1,7 @@
 # Idris syntax highlighting for Kakoune
 
+[![asciicast](https://asciinema.org/a/XVGE4eFCWckJAbSCcyettcnMj.png)](https://asciinema.org/a/XVGE4eFCWckJAbSCcyettcnMj)
+
 Usage:
 
 `cp kakoune-idris/idris.kak /usr/share/kak/autoload`
