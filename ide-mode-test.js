@@ -1,5 +1,11 @@
 var actions = require('./ide-mode-actions.js');
 var assert = require('assert');
+var fs = require('fs');
+
+// clear build directory to prevent change in idris compiler
+// version from breaking tests
+fs.rmdirSync('build', { recursive: true });
+
 
 // We need to preload the files to have deterministic messages later
 actions.load('Test.idr');
