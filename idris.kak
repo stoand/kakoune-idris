@@ -6,6 +6,16 @@
 
 hook global BufCreate .*[.](idr|blod) %{
     set-option buffer filetype idris
+
+	# Mixing tabs and spaces will break
+	# indentation sensitive syntax checking
+    hook buffer InsertChar \t %{ try %{
+      execute-keys -draft "h<a-h><a-k>\A\h+\z<ret><a-;>;%opt{indentwidth}@"
+    }}
+
+    hook buffer InsertDelete ' ' %{ try %{
+      execute-keys -draft 'h<a-h><a-k>\A\h+\z<ret>i<space><esc><lt>'
+    }}
 }
 
 # Idris IDE Mode
@@ -50,8 +60,8 @@ add-highlighter shared/idris/line_comment2 region \|\|\|(?:[^!#$%&*+./<>?@\\\^|~
 add-highlighter shared/idris/code/ regex (?<!')\b0x+[A-Fa-f0-9]+ 0:value
 add-highlighter shared/idris/code/ regex (?<!')\b\d+([.]\d+)? 0:value
 
-add-highlighter shared/idris/code/ regex (?<!')\b(partial|assess|assert_total|default|elim|error_reverse|hide|name|reflection|error_handlers|language|flag|dynamic|provide|inline|used|no_implicit|hint|extern|unqualified|error_handler)(?!')\b 0:keyword
-add-highlighter shared/idris/code/ regex (?<!')\b(of|case|do|data|default|proof|tactic)(?!')\b 0:keyword
+add-highlighter shared/idris/code/ regex (?<!')\b(where|constructor|record|partial|assess|assert_total|default|elim|error_reverse|hide|name|reflection|error_handlers|language|flag|dynamic|provide|inline|used|no_implicit|hint|extern|unqualified|error_handler)(?!')\b 0:keyword
+add-highlighter shared/idris/code/ regex (?<!')\b(if|in|then|else|of|case|do|data|default|proof|tactic)(?!')\b 0:keyword
 
 # Idris Tactic - TODO: restrict tactic keywords to their context
 add-highlighter shared/idris/code/ regex (?<!')\b(intros|rewrite|exact|refine|trivial|let|focus|try|compute|solve|attack|reflect|fill|applyTactic)(?!')\b 0:keyword
