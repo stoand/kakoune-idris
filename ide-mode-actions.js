@@ -15,7 +15,7 @@ function idrisExec(file, additionalCommand, next) {
         let out = res.stdout;
         let matchError = out.match(/:error "(.*)"/);
         if (matchError) {
-            return `echo "${matchError[1]}"`;
+            return `info "${matchError[1]}"`;
         } else {
             return next(out);
         }
