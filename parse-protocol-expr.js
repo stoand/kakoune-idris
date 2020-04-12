@@ -6,6 +6,8 @@ function readPrefixedLines(str) {
     let lines = [];
     while (str.indexOf(finalLine) !== 0) {
         let size = parseInt(str.slice(0, sizePrefixLength), 16);
+        if (!size) break;
+        
         lines.push(str.slice(sizePrefixLength, size + sizePrefixLength - 1));
         str = str.slice(size + sizePrefixLength);
     }
