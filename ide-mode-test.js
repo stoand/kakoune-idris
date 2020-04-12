@@ -13,7 +13,7 @@ actions.load('TestInvalid.idr');
 
 assert.equal(
 	actions.interpret('NonExisting.idr', '', 1, 1),
-	`echo "Command failed"`,
+	`info "Error loading file NonExisting.idr: File Not Found"`,
     'Attempt to load wrong file should display command failed');
 
 // Don't display additional error info for incorrect files
