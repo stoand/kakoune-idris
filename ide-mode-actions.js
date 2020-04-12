@@ -27,20 +27,23 @@ function idrisExec(file, additionalCommand, next) {
     }
 }
 
+function lastRetVal(exprs) {
+   return exprs.reverse().find(e => e[0] == ':return').find(e => e[0] == ':ok')[1]; 
+}
+
 exports.load = function(file) {
     return idrisExec(file, '', () => {});
 }
 
 exports.interpret = function(file, selection) {
     return idrisExec(file, `((:interpret "${selection}") 1)`, exprs => {
-        let val = exprs.reverse().find(e => e[0] == ':return').find(e => e[0] == ':ok')[1];
-        return `echo "${val}"`;
+        return `echo "${lastRetVal(exprs)}"`;
     });
 }
 
 exports.typeOf = function(file, selection, line, column) {
-    return idrisExec(file, `((:type-of "${selection}" ${line} ${column}) 1)`, out => {
-        return `info -title "idris-ide: type" "\n${out.split('"')[3]}"`;
+    return idrisExec(file, `((:type-of "${selection}" ${line} ${column}) 1)`, exprs => {
+        return `info -title "idris-ide: type" "\n${lastRetVal(exprs)}"`;
     });
 }
 
