@@ -14,7 +14,7 @@ function idrisExec(file, additionalCommand, next) {
         	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
     } catch (res) {
         let exprs = parseProtocolExpr(res.stdout);
-        let ret = exprs.pop()[1];
+        let ret = exprs.find(e => e[0] == ':return')[1];
         
         if (ret[0] == ':error') {
             // Prefer to use the warning message over the error message
@@ -22,7 +22,7 @@ function idrisExec(file, additionalCommand, next) {
             let msg = warn ? warn[1][3] : ret[1];
             return `info "${msg}"`;
         } else {
-            return next('');
+            return next(exprs);
         }
     }
 }
@@ -32,8 +32,9 @@ exports.load = function(file) {
 }
 
 exports.interpret = function(file, selection) {
-    return idrisExec(file, `((:interpret "${selection}") 1)`, out => {
-        return `echo "${out.split('\n')[2]}"`;
+    return idrisExec(file, `((:interpret "${selection}") 1)`, exprs => {
+        let val = exprs.reverse().find(e => e[0] == ':return').find(e => e[0] == ':ok')[1];
+        return `echo "${val}"`;
     });
 }
 
