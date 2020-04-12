@@ -1,5 +1,6 @@
 var { execSync } = require('child_process');
 var path = require('path');
+var parseProtocolExpr = require('./parse-protocol-expr');
 
 function newLinesToRet(text) {
     return text.replace(/\n/g, '<ret>');
@@ -12,12 +13,16 @@ function idrisExec(file, additionalCommand, next) {
         execSync(cdProjectCmd + '; [[ -d src ]] && cd src; idris2 --ide-mode',
         	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
     } catch (res) {
-        let out = res.stdout;
-        let matchError = out.match(/:error "(.*)"/);
-        if (matchError) {
-            return `info "${matchError[1]}"`;
+        let exprs = parseProtocolExpr(res.stdout);
+        let ret = exprs.pop()[1];
+        
+        if (ret[0] == ':error') {
+            // Prefer to use the warning message over the error message
+            let warn = exprs.find(e => e[0] == ':warning');
+            let msg = warn ? warn[1][3] : ret[1];
+            return `info "${msg}"`;
         } else {
-            return next(out);
+            return next('');
         }
     }
 }

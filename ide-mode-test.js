@@ -20,14 +20,19 @@ assert.equal(
 // Expect the developer to be building the file in another shell tab
 assert.equal(
 	actions.interpret('TestInvalid.idr', '', 1, 1),
-	`echo "Failed to load TestInvalid.idr"`,
+	`info "While processing right hand side of asdf at TestInvalid.idr:4:1--5:1:
+When unifying String and Integer
+Mismatch between:
+	String
+and
+	Integer"`,
     'Attempt to load invalid file should display command failed');
 
 // todo implement this
-assert.equal(
-	actions.check('TestInvalid.idr', '', 1, 1),
-	'todo',
-	'Checking a file with errors should display those errors');
+// assert.equal(
+// 	actions.check('TestInvalid.idr', '', 1, 1),
+// 	'todo',
+// 	'Checking a file with errors should display those errors');
 
 assert.equal(
 	actions.interpret('Test.idr', '2+2', 1, 1),
