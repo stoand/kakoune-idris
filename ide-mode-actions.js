@@ -48,9 +48,9 @@ exports.typeOf = function(file, selection, line, column) {
 }
 
 exports.caseSplit = function(file, selection, line, column) {
-    return idrisExec(file, `((:case-split ${line} "${selection}") 1)`, out => {
-        var generatedCode = out.split('"')[3];
-        return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<esc>"; execute-keys ${line}g ${column - 1}l`;
+    return idrisExec(file, `((:case-split ${line} "${selection}") 1)`, exprs => {
+        let generatedCode = lastRetVal(exprs);
+        return `execute-keys -draft x c "${newLinesToRet(generatedCode)}<ret><esc>"; execute-keys ${line}g ${column - 1}l`;
     });
     
 }
