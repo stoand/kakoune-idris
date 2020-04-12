@@ -39,7 +39,7 @@ define-command -hidden idris-ide-inner-word -params 0 %{
 define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
     write
 	eval %sh{
-    	printf "$1\n$PWD/$kak_bufname\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
+    	printf "$1\n$kak_buffile\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
     	node ~/.kakoune-idris/ide-mode-run.js
 	}
 }

@@ -8,12 +8,11 @@ function newLinesToRet(text) {
 
 function idrisExec(file, additionalCommand, next) {
     let cdProjectCmd = 'source "' + path.join(__dirname, 'cdproject.sh') + '" "' + file + '"';
-    let relPath = path.relative(process.cwd(), file);
     
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
         execSync(cdProjectCmd + '; [[ -d src ]] && cd src; idris2 --ide-mode',
-        	{ input: `((:load-file "${relPath}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
+        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
     } catch (res) {
         let exprs = parseProtocolExpr(res.stdout);
         let ret = exprs.find(e => e[0] == ':return')[1];
