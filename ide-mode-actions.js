@@ -88,8 +88,8 @@ exports.makeLemma = function(file, selection, line) {
 // Make Case - TOOD (not implemented in idris2 as of this time)
 
 exports.makeWith = function(file, selection, line) {
-    return idrisExec(file, `((:make-with ${line} "${selection}") 1)`, out => {
-        var generatedCode = out.split('"')[3];
+    return idrisExec(file, `((:make-with ${line} "${selection}") 1)`, exprs => {
+        let generatedCode = lastRetVal(exprs);
         return `execute-keys -draft o "${newLinesToRet(generatedCode)}<backspace><esc>"; execute-keys -with-maps -with-hooks j <A-l> h c`;
     });
 }
