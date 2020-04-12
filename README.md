@@ -22,7 +22,7 @@ map global normal <minus> ':enter-user-mode idris-ide<ret>'
 ```
 
 Note: this sets the minus key to be the idris ide mode key.
-This can be changed by replacing the "<minus>" above with the desired key.
+This can be changed by replacing the `<minus>` above with the desired key.
 
 ## Testing
 
