@@ -21,7 +21,7 @@ assert.equal(
 assert.equal(
 	actions.interpret('TestInvalid.idr', '', 1, 1),
 	`echo "Failed to load TestInvalid.idr"`,
-    'Attempt to load wrong file should display command failed');
+    'Attempt to load invalid file should display command failed');
 
 assert.equal(
 	actions.interpret('Test.idr', '2+2', 1, 1),
