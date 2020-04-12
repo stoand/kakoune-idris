@@ -23,6 +23,12 @@ assert.equal(
 	`echo "Failed to load TestInvalid.idr"`,
     'Attempt to load invalid file should display command failed');
 
+// todo implement this
+assert.equal(
+	actions.check('TestInvalid.idr', '', 1, 1),
+	'todo',
+	'Checking a file with errors should display those errors');
+
 assert.equal(
 	actions.interpret('Test.idr', '2+2', 1, 1),
 	`echo "4"`,
@@ -69,6 +75,5 @@ assert.equal(
     'with_pat = ?x_rhs<ret><backspace><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
     'h c',
     'Make lemma');
-    
 
 console.log('All tests succeeded');
