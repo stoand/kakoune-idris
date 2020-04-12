@@ -27,3 +27,7 @@ assert.deepEqual(parseProtocolExpr(example1), [
         'When elaborating right hand side of TestInvalid.asdf:\nTestInvalid.idr:4:8--5:1:' +
         'When unifying: String and Integer\n	TestInvalid.idr:4:8--5:1:Type mismatch: String and Integer'], 1]
 ], 'Example 1 parsed correctly');
+
+
+// todo handle quotes
+let example2 = '';
