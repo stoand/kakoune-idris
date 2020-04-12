@@ -26,5 +26,14 @@ This can be changed by replacing the `<minus>` above with the desired key.
 
 ## Testing
 
-`nodemon ./ide-mode-test.js`
+```
+# Install nodemon to watch for changes
+npm i -g nodemon
+
+# Run action tests
+nodemon ./ide-mode-test.js
+
+# Run protocol parser tests
+nodemon ./parse-protocol-expr-test.js
+```
 

@@ -1,0 +1,28 @@
+{
+  "name": "kakoune-idris",
+  "version": "0.1.0",
+  "description": "Kakoune Idris Highlighting and Actions",
+  "main": "ide-mode-actions.js",
+  "dependencies": {
+    "@types/node": "^13.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon ide-mode-actions.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stoand/kakoune-idris.git"
+  },
+  "keywords": [
+    "kakoune",
+    "idris2",
+    "idris"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stoand/kakoune-idris/issues"
+  },
+  "homepage": "https://github.com/stoand/kakoune-idris#readme"
+}
