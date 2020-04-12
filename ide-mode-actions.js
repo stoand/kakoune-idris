@@ -56,22 +56,22 @@ exports.caseSplit = function(file, selection, line, column) {
 }
 
 exports.addClause = function(file, selection, line) {
-    return idrisExec(file, `((:add-clause ${line} "${selection}") 1)`, out => {
-        var generatedCode = out.split('"')[3];
+    return idrisExec(file, `((:add-clause ${line} "${selection}") 1)`, exprs => {
+        let generatedCode = lastRetVal(exprs);
         return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"; execute-keys jwwb`;
     });
 }
 
 exports.proofSearch = function(file, selection, line) {
-    return idrisExec(file, `((:proof-search ${line} "${selection}") 1)`, out => {
-        var generatedCode = out.split('"')[3];
+    return idrisExec(file, `((:proof-search ${line} "${selection}") 1)`, exprs => {
+        let generatedCode = lastRetVal(exprs);
         return `execute-keys -draft c <backspace> "${newLinesToRet(generatedCode)}<esc>"`;
     });
 }
 
 exports.generateDef = function(file, selection, line) {
-    return idrisExec(file, `((:generate-def ${line} "${selection}") 1)`, out => {
-        var generatedCode = out.split('"')[3];
+    return idrisExec(file, `((:generate-def ${line} "${selection}") 1)`, exprs => {
+        let generatedCode = lastRetVal(exprs);
         return `execute-keys -draft o "${newLinesToRet(generatedCode)}<esc>"; execute-keys jwwb`;
     });
 }
