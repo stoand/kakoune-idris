@@ -1,6 +1,6 @@
 # Idris Highlighting and IDE Actions for Kakoune Editor
 
-[![asciicast](https://asciinema.org/a/XVGE4eFCWckJAbSCcyettcnMj.png)](https://asciinema.org/a/XVGE4eFCWckJAbSCcyettcnMj)
+[![asciicast](https://asciinema.org/a/dMtEyDF58Cm8VZN1MQ2IYiZaq.png)](https://asciinema.org/a/dMtEyDF58Cm8VZN1MQ2IYiZaq)
 
 ## Install
 
