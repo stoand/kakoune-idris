@@ -7,7 +7,7 @@ function newLinesToRet(text) {
 }
 
 function idrisExec(file, additionalCommand, next) {
-    let cdProjectCmd = 'source "' + path.join(__dirname, 'cdproject.sh') + '" "' + file + '"';
+    let cdProjectCmd = 'source "' + path.join(__dirname, 'cdproject.sh') + '" "' + file + '" >> /dev/null';
     
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {

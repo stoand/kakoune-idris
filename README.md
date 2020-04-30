@@ -28,8 +28,6 @@ This can be changed by replacing the `<minus>` above with the desired key.
 
 ```
 # The plugin expects the "*.ipkg" file to be in the same folder as the "src" dir
-# If no "*.ipkg" exists in the same dir as "src", <in kak> ":cd myproject/src/" is necessary
-# for the the module path to be correct
 cd myproject
 touch myproject.ipkg
 mkdir src
