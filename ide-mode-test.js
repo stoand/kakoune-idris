@@ -35,16 +35,16 @@ and
 	Integer"`,
     'Attempt to load invalid file should display command failed');
 
-// todo implement this
-// assert.equal(
-// 	actions.check('TestInvalid.idr', '', 1, 1),
-// 	'todo',
-// 	'Checking a file with errors should display those errors');
-
 assert.equal(
 	actions.interpret(testSrc, '2+2', 1, 1),
 	`echo "4"`,
     'Interpret');
+
+// It appears the ide mode server does not handle escaping correctly yet
+// assert.equal(
+// 	actions.interpret(testSrc, `"a"`, 1, 1),
+// 	`echo "4"`,
+//     'Interpret correctly handles quotes');
 
 assert.equal(
 	actions.typeOf(testSrc, 'caseSplitHere_rhs', 1, 1),
