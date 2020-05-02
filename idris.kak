@@ -2,10 +2,13 @@
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
 # Configuration
-# ‾‾‾‾‾‾‾‾‾
+# ‾‾‾‾‾‾‾‾‾‾‾‾‾
 
 declare-option -docstring 'path to the folder containing the nodejs implementation of the plugin' \
     str idris_implementation_root %sh{dirname "$kak_source"}
+
+declare-option -docstring 'path to the ipkg file that configures this project' \
+    str idris_ipkg_path "<empty>"
 
 # Detection
 # ‾‾‾‾‾‾‾‾‾
@@ -45,11 +48,32 @@ define-command -hidden idris-ide-inner-word -params 0 %{
 define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
     write
 	eval %sh{
+
+    	if [ "$kak_opt_idris_ipkg_path" = "<empty>" ]; then
+      	x=`dirname $kak_opt_idris_ipkg_path`
+      	current=`pwd`
+      	while [ "$x" != "/" ] && [ "$x" != "." ] ; do
+        	find "$x" -maxdepth 1 -name *.ipkg | egrep '.*' && cd "$x" && break
+        	x=`dirname "$x"`
+      	done
+      	x="$(find "$x" -maxdepth 1 -name *.ipkg)"
+      	export kak_idris_ipkg_path="$(echo "$(cd "$(dirname "$x")"; pwd -P)/$(basename "$x")")"
+      	cd "$current"
+    	else
+      	export kak_idris_ipkg_path="$kak_opt_idris_ipkg_path"
+    	fi
+
+    	if ! test -f "$kak_idris_ipkg_path"; then
+      	echo "fail \"'.ipkg' configuration file could not be found\""
+      	exit
+    	fi
+
     	export kak_idris_command="$1"
     	export kak_idris_file="$kak_buffile"
     	export kak_idris_selection="$kak_selection"
     	export kak_idris_line="$kak_cursor_line"
     	export kak_idris_column="$kak_cursor_char_column"
+    	export kak_idris_project_root="$(dirname "$kak_idris_ipkg_path")"
 
     	node "$kak_opt_idris_implementation_root/ide-mode-run.js"
 	}
