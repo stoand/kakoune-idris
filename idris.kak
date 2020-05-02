@@ -1,6 +1,12 @@
 # http://idris.org
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
+# Configuration
+# ‾‾‾‾‾‾‾‾‾
+
+declare-option -docstring 'path to the folder containing the nodejs implementation of the plugin' \
+    str idris_implementation_root %sh{dirname "$kak_source"}
+
 # Detection
 # ‾‾‾‾‾‾‾‾‾
 
@@ -39,8 +45,13 @@ define-command -hidden idris-ide-inner-word -params 0 %{
 define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
     write
 	eval %sh{
-    	printf "$1\n$kak_buffile\n$kak_selection\n$kak_cursor_line\n$kak_cursor_char_column" |
-    	node ~/.kakoune-idris/ide-mode-run.js
+    	export kak_idris_command="$1"
+    	export kak_idris_file="$kak_buffile"
+    	export kak_idris_selection="$kak_selection"
+    	export kak_idris_line="$kak_cursor_line"
+    	export kak_idris_column="$kak_cursor_char_column"
+
+    	node "$kak_opt_idris_implementation_root/ide-mode-run.js"
 	}
 }
 
