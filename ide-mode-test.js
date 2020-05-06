@@ -11,7 +11,7 @@ var testNonExistingSrc = path.join(testDir, 'NonExisting.idr');
 
 // clear build directory to prevent change in idris compiler
 // version from breaking tests
-fs.rmdirSync('build', { recursive: true });
+try{ fs.rmdirSync('build', { recursive: true }); } catch (e) {}
 
 
 // We need to preload the files to have deterministic messages later
