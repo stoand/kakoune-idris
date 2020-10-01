@@ -34,7 +34,7 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
             let [line, column] = warn[1][1];
             let msg = warn[1][3];
             let escapedMsg = msg.replace(/\\"/g, '""'); // kakoune uses "" instead of \" to escape "
-            return `e "${filePath}" ${line} ${column}; info "${escapedMsg}"`;
+            return `e "${root}/${filePath}" ${line} ${column}; info "${escapedMsg}"`;
         } else if (err) {
             let msg = err[1][1];
             return `info "${msg}"`;

@@ -29,7 +29,7 @@ assert.equal(
 // Expect the developer to be building the file in another shell tab
 assert.equal(
 	actions.interpret(testInvalidSrc, testIpkg, testRoot, '', 1, 1),
-	`e "src/TestInvalid.idr" 4 8; info "While processing right hand side of asdf. Can't find ` +
+	`e "${__dirname}/tests/src/TestInvalid.idr" 4 8; info "While processing right hand side of asdf. Can't find ` +
     'an implementation for FromString Integer.\n\n' +
     'src/TestInvalid.idr:4:8--4:15\n   |\n 4 | asdf = ""wrong""\n   ' +
     '|        ^^^^^^^\n"',
