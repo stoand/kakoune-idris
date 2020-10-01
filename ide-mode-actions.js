@@ -18,30 +18,10 @@ function extract(fileContents, regex, defaultValue) {
 function idrisExec(file, ipkg, root, additionalCommand, next) {
     let cdProjectCmd = 'cd ' + root + ' >> /dev/null';
 
-
-    let optionsRegexp = /opts\s*=\s*\"([^\"]*)\"/;
-    let sourcedirRegexp = /sourcedir\s*=\s*'?"?([a-zA-Z/0-9.]+)/;
-    let pkgsRegexp = /(?:depends|pkgs)\s*=\s*(([a-zA-Z/0-9., ]+\s{0,1})*)/;
-    let ipkgFileContents = fs.readFileSync(ipkg,{ encoding: 'utf8' }).toString();
-
-    let sourcedir = extract(ipkgFileContents, sourcedirRegexp, "src");
-    let options = extract(ipkgFileContents, optionsRegexp, "");
-    let pkgs = extract(ipkgFileContents, pkgsRegexp, "")
-                 .split(",")
-                 .filter((v, i, a) => v.trim() != "")
-                 .map(t => "-p " + t.trim());
-    let compilerOptions = options + " " + pkgs.join(" ")
-    let fullSourcedir = path.join(root, sourcedir);
-
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
-        execSync(cdProjectCmd + '; [[ -d ' + fullSourcedir + ' ]] && cd ' + fullSourcedir + '; idris2 ' + compilerOptions + ' --ide-mode',
+        execSync(cdProjectCmd + '; [[ -d ' + root + ' ]] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
         	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
-
-        // When `https://github.com/edwinb/Idris2/issues/349` gets merged, we will not need to parse the ipkg file
-        // and the following would be enough to use thie ipkg configuration
-        // execSync(cdProjectCmd + '; [[ -d ' + root + ' ]] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
-        // 	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
