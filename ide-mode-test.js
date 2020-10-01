@@ -29,9 +29,6 @@ assert.equal(
 // Expect the developer to be building the file in another shell tab
 assert.equal(
 	actions.interpret(testInvalidSrc, testIpkg, testRoot, '', 1, 1),
-  // When `https://github.com/edwinb/Idris2/issues/349` gets merged, and change the actions file acordingly,
-  // this test would need to change the expected message to change the file path like this:
-  // `[...]asdf at src/TestInvalid.idr:4:1[...]`
 	`info "While processing right hand side of asdf. Can't find ` +
     'an implementation for FromString Integer.\n\n' +
     'src/TestInvalid.idr:4:8--4:15\n   |\n 4 | asdf = \\"wrong\\"\n   ' +
