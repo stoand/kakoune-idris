@@ -32,12 +32,10 @@ assert.equal(
   // When `https://github.com/edwinb/Idris2/issues/349` gets merged, and change the actions file acordingly,
   // this test would need to change the expected message to change the file path like this:
   // `[...]asdf at src/TestInvalid.idr:4:1[...]`
-	`info "While processing right hand side of asdf at TestInvalid.idr:4:1--5:1:
-When unifying String and Integer
-Mismatch between:
-	String
-and
-	Integer"`,
+	`info "While processing right hand side of asdf. Can't find ` +
+    'an implementation for FromString Integer.\n\n' +
+    'src/TestInvalid.idr:4:8--4:15\n   |\n 4 | asdf = \\"wrong\\"\n   ' +
+    '|        ^^^^^^^\n"',
     'Attempt to load invalid file should display command failed');
 
 assert.equal(
@@ -54,7 +52,7 @@ assert.equal(
 assert.equal(
 	actions.typeOf(testSrc, testIpkg, testRoot, 'caseSplitHere_rhs', 1, 1),
 	`info -title "idris-ide: type" "\n   splitHere : Bool\n` +
-    '-------------------------------------\ncaseSplitHere_rhs : ' +
+    '------------------------------\ncaseSplitHere_rhs : ' +
     `String"`,
     'Type of');
 
@@ -76,7 +74,9 @@ assert.equal(
 
 assert.equal(
 	actions.generateDef(testSrc, testIpkg, testRoot, 'generateDefHere', 11, 1),
-	'execute-keys -draft o "generateDefHere x = Refl<esc>"; execute-keys jwwb',
+	'execute-keys -draft o "generateDefHere True = ' +
+    'Refl<ret>generateDefHere False = Refl<esc>"; ' +
+    'execute-keys jwwb',
     'Generate definition');
 
 assert.equal(
@@ -89,7 +89,7 @@ assert.equal(
 assert.equal(
 	actions.makeWith(testSrc, testIpkg, testRoot, 'x', 17, 1),
 	'execute-keys -draft o "makeWithHere x with (_)<ret>  makeWithHere x | ' +
-    'with_pat = ?x_rhs<ret><backspace><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
+    'with_pat = ?x_rhs<backspace><esc>"; execute-keys -with-maps -with-hooks j <A-l> ' +
     'h c',
     'Make lemma');
 
