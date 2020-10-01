@@ -45,12 +45,18 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
-        let ret = exprs.find(e => e[0] == ':return')[1];
+        let warn = exprs.find(e => e[0] == ':warning');
+        let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
         
-        if (ret[0] == ':error') {
-            // Prefer to use the warning message over the error message
-            let warn = exprs.find(e => e[0] == ':warning');
-            let msg = warn ? warn[1][3] : ret[1];
+        // Prefer to use the warning message over the error message
+        if (warn) {
+            let filePath = warn[1][0];
+            let [line, column] = warn[1][1];
+            let msg = warn[1][3];
+            let escapedMsg = msg.replace(/\\"/g, '""'); // kakoune uses "" instead of \" to escape "
+            return `e "${filePath}" ${line} ${column}; info "${escapedMsg}"`;
+        } else if (err) {
+            let msg = err[1][1];
             return `info "${msg}"`;
         } else {
             return next(exprs);
@@ -59,7 +65,7 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
 }
 
 function lastRetVal(exprs) {
-   return exprs.concat().reverse().find(e => e[0] == ':return').find(e => e[0] == ':ok')[1]; 
+    return exprs.concat().reverse().find(e => e[0] == ':return').find(e => e[0] == ':ok')[1];
 }
 
 exports.load = function(file, ipkg, root) {
