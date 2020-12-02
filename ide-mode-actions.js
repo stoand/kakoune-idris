@@ -20,8 +20,8 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
 
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
-        execSync(cdProjectCmd + '; [[ -d ' + root + ' ]] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
-        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8', shell: '/bin/bash' });
+        execSync(cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
+        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8' });
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
