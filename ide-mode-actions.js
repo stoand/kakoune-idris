@@ -19,7 +19,6 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
     let cdProjectCmd = 'cd ' + root + ' >> /dev/null';
     
     let command = cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2 --find-ipkg --ide-mode';
-    // let command = cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2_WRONG --find-ipkg --ide-mode';
     let input = `((:load-file "${file}") 1)\n` + additionalCommand + '\n';
 
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
@@ -27,11 +26,16 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
         execSync(command, { input, encoding: 'utf8' });
     } catch (res) {
 
+        let esc = s => s.replace(/"/g, '""');
+
+        let escapedCommand = esc(command);
+        let escapedInput = esc(input);
+
         if (res.stderr) {
-            let escapedErr = res.stderr.replace(/"/g, '""');
-            return `info "\nError:\n\nCommand:${command}\nInput:${input}\n\nStdErr:\n${escapedErr}\n\n"`;
+            let escapedErr = esc(res.stderr)
+            return `info "\n[${__filename}] -- Error:\n\nCommand:\n${escapedCommand}\n\nInput:\n${escapedInput}\n\nStdErr:\n${escapedErr}\n\n"`;
         } else if (!res.stdout) {
-            return `info "\Got empty stdout and stderr:\n\nCommand:${command}\nInput:${input}\n\n"`;
+            return `info "\n[${__filename}] -- Got empty stdout and stderr:\n\nCommand:\n${escapedCommand}\n\nInput:\n${escapedInput}\n\n"`;
         } else {
 
             let exprs = parseProtocolExpr(res.stdout);
