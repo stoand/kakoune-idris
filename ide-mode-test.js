@@ -55,8 +55,8 @@ assert.equal(
 
 assert.equal(
 	actions.caseSplit(testSrc, testIpkg, testRoot, 'splitHere', 4, 15),
-	`execute-keys -draft x c "caseSplitHere True = ?caseSplitHere_rhs_1<ret>` +
-	`caseSplitHere False = ?caseSplitHere_rhs_2<ret><esc>"; execute-keys 4g 14l`,
+	`execute-keys -draft g h G l d i "caseSplitHere True = ?caseSplitHere_rhs_1<ret>` +
+	`caseSplitHere False = ?caseSplitHere_rhs_2<esc>"; execute-keys 4g 14l`,
     'Clause split runs new line with clause');
 
 assert.equal(
