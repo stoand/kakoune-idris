@@ -17,29 +17,40 @@ function extract(fileContents, regex, defaultValue) {
 
 function idrisExec(file, ipkg, root, additionalCommand, next) {
     let cdProjectCmd = 'cd ' + root + ' >> /dev/null';
+    
+    let command = cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2 --find-ipkg --ide-mode';
+    // let command = cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2_WRONG --find-ipkg --ide-mode';
+    let input = `((:load-file "${file}") 1)\n` + additionalCommand + '\n';
 
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
-        execSync(cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
-        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8' });
+        execSync(command, { input, encoding: 'utf8' });
     } catch (res) {
 
-        let exprs = parseProtocolExpr(res.stdout);
-        let warn = exprs.find(e => e[0] == ':warning');
-        let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
-        
-        // Prefer to use the warning message over the error message
-        if (warn) {
-            let filePath = warn[1][0];
-            let [line, column] = warn[1][1];
-            let msg = warn[1][3];
-            let escapedMsg = msg.replace(/\\"/g, '""'); // kakoune uses "" instead of \" to escape "
-            return `e "${filePath}" ${line} ${column}; info "${escapedMsg}"`;
-        } else if (err) {
-            let msg = err[1][1];
-            return `info "${msg}"`;
+        if (res.stderr) {
+            let escapedErr = res.stderr.replace(/"/g, '""');
+            return `info "\nError:\n\nCommand:${command}\nInput:${input}\n\nStdErr:\n${escapedErr}\n\n"`;
+        } else if (!res.stdout) {
+            return `info "\Got empty stdout and stderr:\n\nCommand:${command}\nInput:${input}\n\n"`;
         } else {
-            return next(exprs);
+
+            let exprs = parseProtocolExpr(res.stdout);
+            let warn = exprs.find(e => e[0] == ':warning');
+            let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
+            
+            // Prefer to use the warning message over the error message
+            if (warn) {
+                let filePath = warn[1][0];
+                let [line, column] = warn[1][1];
+                let msg = warn[1][3];
+                let escapedMsg = msg.replace(/\\"/g, '""'); // kakoune uses "" instead of \" to escape "
+                return `e "${filePath}" ${line} ${column}; info "${escapedMsg}"`;
+            } else if (err) {
+                let msg = err[1][1];
+                return `info "${msg}"`;
+            } else {
+                return next(exprs);
+            }
         }
     }
 }
