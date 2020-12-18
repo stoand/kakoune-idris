@@ -25,6 +25,7 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
+        fs.appendFileSync('/tmp/__kak_idris2_exprs', res.stdout || res.stderr || '<stdout & stderr were empty>\n');
         let warn = exprs.find(e => e[0] == ':warning');
         let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
         
