@@ -26,6 +26,8 @@ This can be changed by replacing the `<minus>` above with the desired key.
 
 ## Usage
 
+See the `tests/` dir for an example project
+
 ```
 # The plugin expects the "*.ipkg" file to be in the same folder as the "src" dir
 # Otherwise there may be a "Module name * does not match file name *" error 
