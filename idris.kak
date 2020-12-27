@@ -99,7 +99,7 @@ add-highlighter shared/idris/code/ regex (?<!')\b(where|constructor|record|parti
 add-highlighter shared/idris/code/ regex (?<!')\b(module|import|if|in|then|else|of|case|do|data|default|proof|tactic)(?!')\b 0:keyword
 
 # Idris Tactic - TODO: restrict tactic keywords to their context
-add-highlighter shared/idris/code/ regex (?<!')\b(intros|rewrite|exact|refine|trivial|let|focus|try|compute|solve|attack|reflect|fill|applyTactic)(?!')\b 0:keyword
+add-highlighter shared/idris/code/ regex (?<!')\b(total|intros|rewrite|exact|refine|trivial|let|focus|try|compute|solve|attack|reflect|fill|applyTactic)(?!')\b 0:keyword
 
 # The complications below is because period has many uses:
 # As function composition operator (possibly without spaces) like "." and "f.g"
