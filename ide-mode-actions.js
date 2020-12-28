@@ -3,6 +3,8 @@ var path = require('path');
 var fs = require('fs');
 var parseProtocolExpr = require('./parse-protocol-expr');
 
+const logFile = '/tmp/__kak_idris2_exprs';
+
 function newLinesToRet(text) {
     return text.replace(/\n/g, '<ret>');
 }
@@ -17,15 +19,16 @@ function extract(fileContents, regex, defaultValue) {
 
 function idrisExec(file, ipkg, root, additionalCommand, next) {
     let cdProjectCmd = 'cd ' + root + ' >> /dev/null';
+    let input = `((:load-file "${file}") 1)\n` + additionalCommand + '\n';
 
     // idris2 --ide-mode always returns status 1 (error) because the last line sent was empty
     try {
         execSync(cdProjectCmd + '; [ -d ' + root + ' ] && cd ' + root + '; idris2 --find-ipkg --ide-mode',
-        	{ input: `((:load-file "${file}") 1)\n` + additionalCommand + '\n', encoding: 'utf8' });
+        	{ input, encoding: 'utf8' });
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
-        fs.appendFileSync('/tmp/__kak_idris2_exprs', res.stdout || res.stderr || '<stdout & stderr were empty>\n');
+        fs.appendFileSync(logFile, 'Input Sent:\n' + input + '\n\n' + res.stdout || res.stderr || '<stdout & stderr were empty>\n');
         let warn = exprs.find(e => e[0] == ':warning');
         let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
         
