@@ -63,7 +63,7 @@ exports.interpret = function(file, ipkg, root, selection) {
 }
 
 exports.typeOf = function(file, ipkg, root, selection, line, column) {
-    return idrisExec(file, ipkg, root, `((:type-of "${selection}" ${line} ${column}) 1)`, exprs => {
+    return idrisExec(file, ipkg, root, `((:type-of "${selection}") 1)`, exprs => {
         return `info -title "idris-ide: type" "\n${lastRetVal(exprs)}"`;
     });
 }
