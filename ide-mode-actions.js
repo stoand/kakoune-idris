@@ -3,7 +3,9 @@ var path = require('path');
 var fs = require('fs');
 var parseProtocolExpr = require('./parse-protocol-expr');
 
-const logFile = '/tmp/__kak_idris2_exprs';
+// Uncomment to enable verbose logs (disabled due to large file size issues)
+// const logFile = '/tmp/__kak_idris2_exprs';
+const logFile = undefined;
 
 function newLinesToRet(text) {
     return text.replace(/\n/g, '<ret>');
@@ -28,7 +30,9 @@ function idrisExec(file, ipkg, root, additionalCommand, next) {
     } catch (res) {
 
         let exprs = parseProtocolExpr(res.stdout);
-        fs.appendFileSync(logFile, 'Input Sent:\n' + input + '\n\n' + res.stdout || res.stderr || '<stdout & stderr were empty>\n');
+        if (logFile) {
+            fs.appendFileSync(logFile, 'Input Sent:\n' + input + '\n\n' + res.stdout || res.stderr || '<stdout & stderr were empty>\n');
+        }
         let warn = exprs.find(e => e[0] == ':warning');
         let err = exprs.find(e => e[0] == ':return' && e[1][0] == ':error');
         
