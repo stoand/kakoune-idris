@@ -63,7 +63,21 @@ exports.interpret = function(file, ipkg, root, selection) {
 }
 
 exports.typeOf = function(file, ipkg, root, selection, line, column) {
-    return idrisExec(file, ipkg, root, `((:type-of "${selection}") 1)`, exprs => {
+  
+    let fileContents = fs.readFileSync(file, { encoding: 'utf8' });
+    let charBeforeSelection = fileContents.split('\n')[line - 1][column - 1 - selection.length];
+    let isHole = charBeforeSelection === '?';
+
+    // holes are global
+    // providing a line and column when typechecking a hole that is part of an interface
+    // results in undefined
+
+    // non holes / regular variables are local to their context
+    // therefore line and column numbers are needed
+    
+    let params = isHole ? `"${selection}"` : `"${selection}" ${line} ${column}`;
+    
+    return idrisExec(file, ipkg, root, `((:type-of ${params}) 1)`, exprs => {
         return `info -title "idris-ide: type" "\n${lastRetVal(exprs)}"`;
     });
 }
