@@ -4,6 +4,9 @@
 # Configuration
 # ‾‾‾‾‾‾‾‾‾‾‾‾‾
 
+declare-option -docstring 'path to the nodejs binary that this plugin will use' \
+    str idris_node_binary_path "node"
+
 declare-option -docstring 'path to the folder containing the nodejs implementation of the plugin' \
     str idris_implementation_root %sh{dirname "$kak_source"}
 
@@ -75,7 +78,7 @@ define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
     	export kak_idris_column="$kak_cursor_char_column"
     	export kak_idris_project_root="$(dirname "$kak_idris_ipkg_path")"
 
-    	node "$kak_opt_idris_implementation_root/ide-mode-run.js"
+    	"$kak_opt_idris_node_binary_path" "$kak_opt_idris_implementation_root/ide-mode-run.js"
 	}
 }
 
