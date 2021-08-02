@@ -32,8 +32,8 @@ hook global BufCreate .*[.](idr|blod) %{
 
 declare-user-mode idris-ide
 
-map global idris-ide i ': eval -draft %{ idris-ide interpret }<ret>' -docstring 'interpret'
-map global idris-ide t ': eval -draft %{ idris-ide-inner-word; idris-ide typeOf }<ret>' -docstring 'type-of'
+map global idris-ide i ': idris-ide interpret<ret>' -docstring 'interpret'
+map global idris-ide t ': idris-ide-inner-word; idris-ide typeOf<ret>' -docstring 'type-of'
 map global idris-ide a ': eval -draft %{ idris-ide-inner-word; idris-ide addClause }<ret>' -docstring 'add-clause'
 map global idris-ide s ': eval -draft %{ idris-ide-inner-word; idris-ide caseSplit }<ret>' -docstring 'case-split'
 map global idris-ide p ': eval -draft %{ idris-ide-inner-word; idris-ide proofSearch }<ret>' -docstring 'proof-search'
