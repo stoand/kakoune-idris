@@ -4,9 +4,8 @@
   "description": "Kakoune Idris Highlighting and Actions",
   "main": "ide-mode-actions.js",
   "dependencies": {
-    "@types/node": "^13.11.1"
+    "@types/node": "^13.13.52"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "nodemon ide-mode-actions.js"
   },
