@@ -53,15 +53,16 @@ define-command -docstring 'Invoke Idris IDE command' idris-ide -params 1 %{
 	eval %sh{
 
     	if [ "$kak_opt_idris_ipkg_path" = "<empty>" ]; then
-      	x=`dirname $kak_opt_idris_ipkg_path`
-      	current=`pwd`
-      	while [ "$x" != "/" ] && [ "$x" != "." ] ; do
-        	find "$x" -maxdepth 1 -name *.ipkg | egrep '.*' && cd "$x" && break
-        	x=`dirname "$x"`
-      	done
-      	x="$(find "$x" -maxdepth 1 -name *.ipkg)"
-      	export kak_idris_ipkg_path="$(echo "$(cd "$(dirname "$x")"; pwd -P)/$(basename "$x")")"
-      	cd "$current"
+        cd `dirname "$kak_buffile"`
+
+        export tmp_path=""
+        while [ "$PWD" != / ] && [ "$tmp_path" = "" ] ; do
+            tmp_path=`find "$PWD" -maxdepth 1 -name "*.ipkg" | head -n 1`
+            if [ "$tmp_path" != "" ]; then break ; fi
+            cd ..
+        done
+
+      	export kak_idris_ipkg_path="$tmp_path"
     	else
       	export kak_idris_ipkg_path="$kak_opt_idris_ipkg_path"
     	fi
