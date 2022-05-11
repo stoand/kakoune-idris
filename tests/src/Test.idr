@@ -1,7 +1,7 @@
 module Test
 
 caseSplitHere : Bool -> String
-caseSplitHere splitHere = ?caseSplitHere_rhs
+caseSplitHere splitHere = ?rhs
 
 addClauseHere : List String -> List Nat
 

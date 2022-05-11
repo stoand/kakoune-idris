@@ -29,11 +29,15 @@ assert.equal(
 // Expect the developer to be building the file in another shell tab
 assert.equal(
 	actions.interpret(testInvalidSrc, testIpkg, testRoot, '', 1, 1),
-	`e "${__dirname}/tests/src/TestInvalid.idr" 4 8; info "While processing right hand side of asdf. Can't find ` +
-    'an implementation for FromString Integer.\n\n' +
-    `${__dirname}/tests/src/TestInvalid.idr:4:8--4:15\n   |\n 4 | asdf = ""wrong""\n   ` +
-    '|        ^^^^^^^\n"',
-    'Attempt to load invalid file should display command failed');
+	`e "src/TestInvalid.idr" 3 7; info "While processing right hand side of asdf. Can't find an implementation for FromString Integer.\n` +
+    '\n' +
+    'TestInvalid:4:8--4:15\n' +
+    ' 1 | module TestInvalid\n' +
+    ' 2 | \n' +
+    ' 3 | asdf : Integer\n' +
+    ' 4 | asdf = ""wrong""\n' +
+    '            ^^^^^^^\n' +
+    '"');
 
 assert.equal(
 	actions.interpret(testSrc, testIpkg, testRoot, '2+2', 1, 1),
@@ -55,8 +59,8 @@ assert.equal(
 
 assert.equal(
 	actions.caseSplit(testSrc, testIpkg, testRoot, 'splitHere', 4, 15),
-	`execute-keys -draft g h G l d i "caseSplitHere True = ?caseSplitHere_rhs_1<ret>` +
-	`caseSplitHere False = ?caseSplitHere_rhs_2<esc>"; execute-keys 4g 14l`,
+	`execute-keys -draft g h G l d i "caseSplitHere False = ?caseSplitHere_rhs_0<ret>` +
+	`caseSplitHere True = ?caseSplitHere_rhs_1<esc>"; execute-keys 4g 14l`,
     'Clause split runs new line with clause');
 
 assert.equal(
@@ -71,8 +75,8 @@ assert.equal(
 
 assert.equal(
 	actions.generateDef(testSrc, testIpkg, testRoot, 'generateDefHere', 11, 1),
-	'execute-keys -draft o "generateDefHere True = ' +
-    'Refl<ret>generateDefHere False = Refl<esc>"; ' +
+	'execute-keys -draft o "generateDefHere False = ' +
+    'Refl<ret>generateDefHere True = Refl<esc>"; ' +
     'execute-keys jwwb',
     'Generate definition');
 
