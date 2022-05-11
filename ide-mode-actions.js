@@ -109,7 +109,9 @@ exports.generateDef = function(file, ipkg, root, selection, line) {
 
 exports.makeLemma = function(file, ipkg, root, selection, line) {
     return idrisExec(file, ipkg, root, `((:make-lemma ${line} "${selection}") 1)`, exprs => {
-        let [generatedCode, replace] = lastRetVal(exprs).split('\n');
+        let ret = lastRetVal(exprs);
+        let replace = ret[1][1];
+        let generatedCode = ret[2][1];
         return `execute-keys c <backspace> "${replace}" <esc> <A-i> p O "${generatedCode}" <ret> <esc> k`;
     });
 }
